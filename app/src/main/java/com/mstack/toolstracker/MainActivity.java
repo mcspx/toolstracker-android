@@ -28,12 +28,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int ZBAR_SCANNER_REQUEST = 1;
     private static final String TAG = "MainActivity";
 
+    PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        preferenceManager = new PreferenceManager(this);
+        if (null != preferenceManager.getBaseApi()){
+            Api.URL = preferenceManager.getBaseApi();
+        }
 
     }
 

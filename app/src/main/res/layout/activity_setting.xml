@@ -37,7 +37,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/ed_url_api"
+            android:text="http://api.echeck-tools.com"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp" />
     </LinearLayout>
