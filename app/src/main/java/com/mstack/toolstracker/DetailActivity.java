@@ -14,7 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mstack.toolstracker.api.Api;
+import com.mstack.toolstracker.database.History;
+import com.mstack.toolstracker.database.History$Table;
 import com.mstack.toolstracker.model.TrackingModel;
+import com.raizlabs.android.dbflow.sql.builder.Condition;
+import com.raizlabs.android.dbflow.sql.language.Select;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,12 +39,15 @@ public class DetailActivity extends AppCompatActivity {
     String resultData;
     TrackingModel trackingModel;
     ProgressDialog progressDialog;
+    History history;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
+        history = new History();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Tools Tracker");
@@ -49,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         resultData = bundle.getString("resultData");
         Log.d(TAG, "onCreate() returned: " + resultData);
         loadQRCode(resultData);
+
     }
 
     @OnClick(R.id.btn_back)
@@ -59,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
     public void loadQRCode(String scanQR) {
         Call<TrackingModel> trackingModelCall = Api.api_loadQRCode().postQRCode(scanQR);
         trackingModelCall.enqueue(new Callback<TrackingModel>() {
+
             @Override
             public void onResponse(Response<TrackingModel> response, Retrofit retrofit) {
                 trackingModel = response.body();
@@ -70,6 +81,8 @@ public class DetailActivity extends AppCompatActivity {
                     MyAdapter mAdapter = new MyAdapter(trackingModel);
                     recycleView.setAdapter(mAdapter);
                     progressDialog.dismiss();
+
+//                    test(0);
                 }
             }
 
@@ -80,6 +93,12 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void test(int ooo){
+
+        List<History> historyList = new Select().from(History.class).where(Condition.column(History$Table.ORDER).eq(ooo)).queryList();
+        Log.d(TAG, "onCreate() returned: " + historyList);
     }
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -106,7 +125,39 @@ public class DetailActivity extends AppCompatActivity {
             if (trackingModel.getResultData().get(position).getState().equals("T")) {
                 holder.txtViewLabel.setText(trackingModel.getResultData().get(position).getLabel());
                 holder.txtViewValue.setText(trackingModel.getResultData().get(position).getValue());
+                history.order = trackingModel.getResultData().get(position).getOrder();
+
             }
+
+            if (trackingModel.getResultData().get(position).getLabel().equals("Service Code")){
+                history.order = trackingModel.getResultData().get(position).getOrder();
+                history.cServiceCode = trackingModel.getResultData().get(position).getValue();
+
+                Log.d(TAG, "onBindViewHolder() cServiceCode: " + history.cServiceCode);
+            }
+
+            if (trackingModel.getResultData().get(position).getLabel().equals("Register Time")){
+                history.order = trackingModel.getResultData().get(position).getOrder();
+                history.cRegister_Time = trackingModel.getResultData().get(position).getValue();
+
+                Log.d(TAG, "onBindViewHolder() cRegister_Time: " + history.cRegister_Time);
+            }
+
+            if (trackingModel.getResultData().get(position).getLabel().equals("TAT All")){
+                history.order = trackingModel.getResultData().get(position).getOrder();
+                history.cTAT_All = trackingModel.getResultData().get(position).getValue();
+
+                Log.d(TAG, "onBindViewHolder() cTAT_All: " + history.cTAT_All);
+            }
+
+            if (trackingModel.getResultData().get(position).getLabel().equals("Condition #3")){
+                history.order = trackingModel.getResultData().get(position).getOrder();
+                history.cCondition3 = trackingModel.getResultData().get(position).getValue();
+
+                Log.d(TAG, "onBindViewHolder() cCondition3: " + history.cCondition3);
+            }
+
+
         }
 
         @Override

@@ -10,9 +10,30 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/top">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tools Tracker"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mRecycleview"
+        android:layout_below="@+id/top"
+        android:layout_above="@+id/buttom" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:id="@+id/buttom">
 
         <LinearLayout
             android:orientation="vertical"
@@ -75,15 +96,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Tools Tracker"
-            android:gravity="center" />
-    </LinearLayout>
 </RelativeLayout>

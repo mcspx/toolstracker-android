@@ -4,42 +4,84 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mstack.toolstracker.api.Api;
-import com.mstack.toolstracker.model.TrackingModel;
+import com.mstack.toolstracker.database.History;
+import com.mstack.toolstracker.database.History$Table;
 import com.mstack.toolstracker.scanqr.ZBarConstants;
+import com.raizlabs.android.dbflow.sql.builder.Condition;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import net.sourceforge.zbar.Symbol;
+
+import java.util.List;
+
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int ZBAR_SCANNER_REQUEST = 1;
     private static final String TAG = "MainActivity";
-
+    @InjectView(R.id.mRecycleview)
+    RecyclerView mRecycleview;
+    private List<History> histories;
     PreferenceManager preferenceManager;
+    int order;
+    History history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        history = new History();
         preferenceManager = new PreferenceManager(this);
-        if (null != preferenceManager.getBaseApi()){
+        if (null != preferenceManager.getBaseApi()) {
             Api.URL = preferenceManager.getBaseApi();
         }
 
+        history.cServiceCode = "Pitipong watawut";
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "onResume() returned: first");
+
+        if (null != histories) {
+            initData();
+            Log.d(TAG, "onResume() returned: " + histories.get(0).cServiceCode);
+            initRecycle();
+        }
+
+    }
+
+    private void initData() {
+        histories = new Select().from(History.class).queryList();
+    }
+
+    private void initRecycle() {
+        mRecycleview.setHasFixedSize(true);
+        mRecycleview.addItemDecoration(new DividerItemDecoration(MainActivity.this, DividerItemDecoration.VERTICAL_LIST));
+        mRecycleview.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        mRecycleview.setItemAnimator(new DefaultItemAnimator());
+        MyHistoryAdapter myHistoryAdapter = new MyHistoryAdapter(histories);
+        mRecycleview.setAdapter(myHistoryAdapter);
     }
 
     @OnClick(R.id.btn_scan)
@@ -54,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_setting)
-    public void btnSetting(){
-        Intent intent = new Intent(MainActivity.this,SettingActivity.class);
+    public void btnSetting() {
+        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(intent);
     }
 
@@ -82,6 +124,71 @@ public class MainActivity extends AppCompatActivity {
     public boolean isCameraAvailable() {
         PackageManager pm = getPackageManager();
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
+    }
+
+    private class MyHistoryAdapter extends RecyclerView.Adapter<MyHistoryAdapter.ViewHolder> {
+
+        private List<History> histories;
+
+        public MyHistoryAdapter(List<History> histories) {
+            this.histories = histories;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemLayoutView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_history, parent, false);
+
+            final ViewHolder viewHolder = new ViewHolder(itemLayoutView);
+
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+
+            holder.txtViewServiceCode.setText(histories.get(position).cServiceCode);
+            holder.txtViewRegisterTime.setText(histories.get(position).cRegister_Time);
+            holder.txtViewTatAll.setText(histories.get(position).cTAT_All);
+
+            if (histories.get(position).cCondition3.equals("00")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_00);
+            }else if (histories.get(position).cCondition3.equals("11")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_11);
+            }else if (histories.get(position).cCondition3.equals("21")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_21);
+            }else if (histories.get(position).cCondition3.equals("22")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_22);
+            }else if (histories.get(position).cCondition3.equals("31")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_31);
+            }else if (histories.get(position).cCondition3.equals("32")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_32);
+            }else if (histories.get(position).cCondition3.equals("99")){
+                holder.imgViewCondition3.setImageResource(R.drawable.ic_99);
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return histories.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public TextView txtViewServiceCode, txtViewRegisterTime, txtViewTatAll;
+            public ImageView imgViewCondition3;
+
+            public ViewHolder(View itemLayoutView) {
+                super(itemLayoutView);
+
+                txtViewServiceCode = (TextView) itemLayoutView.findViewById(R.id.txtServiceCode);
+                txtViewRegisterTime = (TextView) itemLayoutView.findViewById(R.id.txtRegisterTime);
+                txtViewTatAll = (TextView) itemLayoutView.findViewById(R.id.txtServiceCode);
+                imgViewCondition3 = (ImageView) itemLayoutView.findViewById(R.id.imgCondition3);
+
+            }
+        }
     }
 
 }
