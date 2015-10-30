@@ -20,6 +20,9 @@ import com.mstack.toolstracker.api.Api;
 import com.mstack.toolstracker.database.History;
 import com.mstack.toolstracker.database.History$Table;
 import com.mstack.toolstracker.scanqr.ZBarConstants;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.config.History$Database;
+import com.raizlabs.android.dbflow.list.FlowQueryList;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -39,40 +42,42 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.mRecycleview)
     RecyclerView mRecycleview;
     private List<History> histories;
-    PreferenceManager preferenceManager;
-    int order;
     History history;
+    PreferenceManager preferenceManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        history = new History();
+        FlowManager.init(this);
+
         preferenceManager = new PreferenceManager(this);
         if (null != preferenceManager.getBaseApi()) {
             Api.URL = preferenceManager.getBaseApi();
         }
 
-        history.cServiceCode = "Pitipong watawut";
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        Log.d(TAG, "onResume() returned: first");
-
-        if (null != histories) {
-            initData();
-            Log.d(TAG, "onResume() returned: " + histories.get(0).cServiceCode);
-            initRecycle();
-        }
-
+        initData();
+//        initRecycle();
+//        Log.d(TAG, "onResume() returned: " + histories.size());
     }
 
     private void initData() {
         histories = new Select().from(History.class).queryList();
+//        FlowQueryList<History> flowQueryList = new FlowQueryList<History>(History.class);
+        if (histories.size() != 0) {
+            Log.d(TAG, "initData() returned: " + histories.get(0).cServiceCode);
+            initRecycle();
+        }
+//        Log.d(TAG, "initData() returned: " + flowQueryList.get(0).cServiceCode);
+
     }
 
     private void initRecycle() {
@@ -150,20 +155,24 @@ public class MainActivity extends AppCompatActivity {
             holder.txtViewServiceCode.setText(histories.get(position).cServiceCode);
             holder.txtViewRegisterTime.setText(histories.get(position).cRegister_Time);
             holder.txtViewTatAll.setText(histories.get(position).cTAT_All);
+//
+            Log.d(TAG, "cServiceCode returned: " + histories.get(position).cServiceCode);
+            Log.d(TAG, "cRegister_Time returned: " + histories.get(position).cRegister_Time);
+            Log.d(TAG, "cTAT_All returned: " + histories.get(position).cTAT_All);
 
-            if (histories.get(position).cCondition3.equals("00")){
+            if (histories.get(position).cCondition3.equals("00")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_00);
-            }else if (histories.get(position).cCondition3.equals("11")){
+            } else if (histories.get(position).cCondition3.equals("11")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_11);
-            }else if (histories.get(position).cCondition3.equals("21")){
+            } else if (histories.get(position).cCondition3.equals("21")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_21);
-            }else if (histories.get(position).cCondition3.equals("22")){
+            } else if (histories.get(position).cCondition3.equals("22")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_22);
-            }else if (histories.get(position).cCondition3.equals("31")){
+            } else if (histories.get(position).cCondition3.equals("31")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_31);
-            }else if (histories.get(position).cCondition3.equals("32")){
+            } else if (histories.get(position).cCondition3.equals("32")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_32);
-            }else if (histories.get(position).cCondition3.equals("99")){
+            } else if (histories.get(position).cCondition3.equals("99")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_99);
             }
 
@@ -184,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
                 txtViewServiceCode = (TextView) itemLayoutView.findViewById(R.id.txtServiceCode);
                 txtViewRegisterTime = (TextView) itemLayoutView.findViewById(R.id.txtRegisterTime);
-                txtViewTatAll = (TextView) itemLayoutView.findViewById(R.id.txtServiceCode);
+                txtViewTatAll = (TextView) itemLayoutView.findViewById(R.id.txtTAT);
                 imgViewCondition3 = (ImageView) itemLayoutView.findViewById(R.id.imgCondition3);
 
             }

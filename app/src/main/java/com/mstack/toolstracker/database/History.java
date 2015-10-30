@@ -17,6 +17,18 @@ public class History extends BaseModel {
     public int order;
 
     @Column
+    public String lServiceCode;
+
+    @Column
+    public String lRegister_Time;
+
+    @Column
+    public String lTAT_All;
+
+    @Column
+    public String lCondition3;
+
+    @Column
     public String cServiceCode;
 
     @Column
