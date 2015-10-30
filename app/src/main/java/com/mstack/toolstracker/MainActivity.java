@@ -18,18 +18,14 @@ import android.widget.Toast;
 
 import com.mstack.toolstracker.api.Api;
 import com.mstack.toolstracker.database.History;
-import com.mstack.toolstracker.database.History$Table;
 import com.mstack.toolstracker.scanqr.ZBarConstants;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.config.History$Database;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
-import com.raizlabs.android.dbflow.sql.builder.Condition;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import net.sourceforge.zbar.Symbol;
 
 import java.util.List;
-
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     @InjectView(R.id.mRecycleview)
     RecyclerView mRecycleview;
+    @InjectView(R.id.txtNodata)
+    TextView txtNodata;
     private List<History> histories;
     History history;
     PreferenceManager preferenceManager;
@@ -57,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         if (null != preferenceManager.getBaseApi()) {
             Api.URL = preferenceManager.getBaseApi();
         }
+
+        txtNodata.setVisibility(View.INVISIBLE);
+        mRecycleview.setVisibility(View.VISIBLE);
 
     }
 
@@ -75,7 +76,10 @@ public class MainActivity extends AppCompatActivity {
         if (histories.size() != 0) {
             Log.d(TAG, "initData() returned: " + histories.get(0).cServiceCode);
             initRecycle();
+            txtNodata.setVisibility(View.INVISIBLE);
+            mRecycleview.setVisibility(View.VISIBLE);
         }
+        Log.d(TAG, "clear() returned: " + histories.size());
 //        Log.d(TAG, "initData() returned: " + flowQueryList.get(0).cServiceCode);
 
     }
@@ -104,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
     public void btnSetting() {
         Intent intent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_clear)
+    public void clear() {
+        FlowQueryList<History> flowQueryList = new FlowQueryList<History>(History.class);
+        flowQueryList.removeAll(histories);
+        Log.d(TAG, "clear() returned: " + histories.size());
+        Toast.makeText(MainActivity.this, "Clear Data", Toast.LENGTH_SHORT).show();
+        txtNodata.setVisibility(View.VISIBLE);
+        mRecycleview.setVisibility(View.INVISIBLE);
     }
 
     @Override
