@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_back)
-    public void back(){
+    public void back() {
         finish();
     }
 
@@ -85,22 +85,22 @@ public class DetailActivity extends AppCompatActivity {
 
                     for (int i = 0; i < trackingModel.getResultData().size(); i++) {
 
-                        if (trackingModel.getResultData().get(i).getLabel().equals("Service Code")){
+                        if (trackingModel.getResultData().get(i).getLabel().equals("Service Code")) {
                             history.lServiceCode = trackingModel.getResultData().get(i).getLabel();
                             history.cServiceCode = trackingModel.getResultData().get(i).getValue();
                         }
 
-                        if (trackingModel.getResultData().get(i).getLabel().equals("Register Time")){
+                        if (trackingModel.getResultData().get(i).getLabel().equals("Register Time")) {
                             history.lRegister_Time = trackingModel.getResultData().get(i).getLabel();
                             history.cRegister_Time = trackingModel.getResultData().get(i).getValue();
                         }
 
-                        if (trackingModel.getResultData().get(i).getLabel().equals("TAT All")){
+                        if (trackingModel.getResultData().get(i).getLabel().equals("TAT All")) {
                             history.lTAT_All = trackingModel.getResultData().get(i).getLabel();
                             history.cTAT_All = trackingModel.getResultData().get(i).getValue();
                         }
 
-                        if (trackingModel.getResultData().get(i).getLabel().equals("Condition #3")){
+                        if (trackingModel.getResultData().get(i).getLabel().equals("Condition #3")) {
                             history.lCondition3 = trackingModel.getResultData().get(i).getLabel();
                             history.cCondition3 = trackingModel.getResultData().get(i).getValue();
                         }
@@ -112,9 +112,7 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-
                 Log.d(TAG, "onFailure() returned: ");
-
             }
         });
     }
@@ -145,7 +143,6 @@ public class DetailActivity extends AppCompatActivity {
                 holder.txtViewLabel.setText(trackingModel.getResultData().get(position).getLabel());
                 holder.txtViewValue.setText(trackingModel.getResultData().get(position).getValue());
             }
-
         }
 
         @Override

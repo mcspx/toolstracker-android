@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.mstack.toolstracker.api.Api;
 
@@ -28,6 +29,8 @@ public class SettingActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         preferenceManager = new PreferenceManager(this);
 
+        edUrlApi.setText(preferenceManager.getBaseApi());
+
     }
 
     @OnClick(R.id.btn_save)
@@ -39,6 +42,8 @@ public class SettingActivity extends AppCompatActivity {
         }else {
             preferenceManager.SetBaseApi(urlApi);
             Api.URL = urlApi;
+            Toast.makeText(SettingActivity.this, "บันทึกเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
