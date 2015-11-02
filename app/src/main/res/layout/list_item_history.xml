@@ -73,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:text="New Text"
                             android:id="@+id/txtServiceCode"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:layout_weight="1"
                             android:textColor="#000000" />
 
@@ -82,7 +82,7 @@
                             android:layout_height="wrap_content"
                             android:text="New Text"
                             android:id="@+id/txtRegisterTime"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:layout_weight="1"
                             android:textColor="#000000" />
                     </LinearLayout>
@@ -98,22 +98,29 @@
                         android:gravity="center"
                         android:padding="8dp">
 
-                        <TextView
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/r192"
+                                />
+
+                            <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="5"
                             android:id="@+id/txtTAT"
-                            android:padding="6dp" />
+                            android:padding="6dp"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TAT"
-                            android:id="@+id/tat"
-                            android:textColor="#000000"
-                            android:background="#ff0000"
-                            android:padding="8dp" />
+
+                        </RelativeLayout>
                     </LinearLayout>
 
                 </RelativeLayout>

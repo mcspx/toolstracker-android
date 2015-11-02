@@ -22,9 +22,12 @@ import android.widget.Toast;
 
 import com.mstack.toolstracker.api.Api;
 import com.mstack.toolstracker.database.History;
+import com.mstack.toolstracker.database.Test;
+import com.mstack.toolstracker.database.Test$Table;
 import com.mstack.toolstracker.scanqr.ZBarConstants;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
+import com.raizlabs.android.dbflow.sql.builder.Condition;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import net.sourceforge.zbar.Symbol;
@@ -44,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.txtNodata)
     TextView txtNodata;
     private List<History> histories;
-    History history;
+    private List<Test> testList;
     PreferenceManager preferenceManager;
     FlowQueryList<History> flowQueryList;
+    FlowQueryList<Test> testFlowQueryList;
     MyHistoryAdapter myHistoryAdapter;
 
     @Override
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         FlowManager.init(this);
         flowQueryList = new FlowQueryList<History>(History.class);
+        testFlowQueryList = new FlowQueryList<Test>(Test.class);
         preferenceManager = new PreferenceManager(this);
         if (null != preferenceManager.getBaseApi()) {
             Api.URL = preferenceManager.getBaseApi();
@@ -77,12 +82,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         histories = new Select().from(History.class).queryList();
+        testList = new Select().from(Test.class).queryList();
+        Log.d(TAG, "initData() out testList size: " + testList.size());
 //        FlowQueryList<History> flowQueryList = new FlowQueryList<History>(History.class);
         if (histories.size() != 0) {
             Log.d(TAG, "initData() returned: " + histories.get(0).cServiceCode);
             initRecycle();
             txtNodata.setVisibility(View.INVISIBLE);
             mRecycleview.setVisibility(View.VISIBLE);
+        }
+        if (testList.size() != 0){
+            for (int i = 0; i < testList.size(); i++) {
+                testList.get(i).value.toString();
+                Log.d(TAG, "initData() testList value: " + testList.get(i).value.toString());
+                Log.d(TAG, "initData() testList size: " + testList.size());
+            }
         }
         Log.d(TAG, "clear() returned: " + histories.size());
 //        Log.d(TAG, "initData() returned: " + flowQueryList.get(0).cServiceCode);
@@ -217,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     flowQueryList.remove(histories.remove(position));
-//                    Log.d(TAG, "onClick() returned: " + histories.get(position).cServiceCode);
+                    myHistoryAdapter.notifyDataSetChanged();
                 }
             });
         }

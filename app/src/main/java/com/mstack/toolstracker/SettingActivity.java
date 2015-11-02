@@ -33,7 +33,6 @@ public class SettingActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(this);
 
         edUrlApi.setText(preferenceManager.getBaseApi());
-
     }
 
     @OnClick(R.id.btn_save)

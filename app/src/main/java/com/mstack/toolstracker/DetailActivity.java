@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.mstack.toolstracker.api.Api;
 import com.mstack.toolstracker.database.History;
 import com.mstack.toolstracker.database.History$Table;
+import com.mstack.toolstracker.database.Test;
 import com.mstack.toolstracker.model.TrackingModel;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
@@ -40,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     TrackingModel trackingModel;
     ProgressDialog progressDialog;
     History history;
+    Test test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
         history = new History();
-
+        test = new Test();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Tools Tracker");
         progressDialog.setMessage("Loading...");
@@ -103,6 +105,9 @@ public class DetailActivity extends AppCompatActivity {
                             history.cCondition3 = trackingModel.getResultData().get(i).getValue();
                         }
 
+                        test.lable = trackingModel.getResultData().get(i).getLabel();
+                        test.value = trackingModel.getResultData().get(i).getValue();
+                        test.insert();
                     }
                     history.save();
 
