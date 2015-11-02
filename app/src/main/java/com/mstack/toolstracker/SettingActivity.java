@@ -1,6 +1,9 @@
 package com.mstack.toolstracker;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -34,16 +37,27 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_save)
-    public void save(){
+    public void save() {
         urlApi = edUrlApi.getText().toString();
         if (TextUtils.isEmpty(urlApi)) {
             edUrlApi.setError("please enter your API URL");
             return;
-        }else {
+        } else {
             preferenceManager.SetBaseApi(urlApi);
             Api.URL = urlApi;
-            Toast.makeText(SettingActivity.this, "บันทึกเรียบร้อยแล้ว", Toast.LENGTH_SHORT).show();
-            finish();
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Save Sucessful")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            finish();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+
+
         }
     }
 

@@ -5,17 +5,6 @@
     android:orientation="vertical"
     tools:context="com.mstack.toolstracker.DetailActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="Tools Tracker"
-        android:gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:id="@+id/txt" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +26,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
@@ -48,7 +37,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_back"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/btn_history" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Histroy"
+            android:gravity="center" />
     </LinearLayout>
 
 </RelativeLayout>

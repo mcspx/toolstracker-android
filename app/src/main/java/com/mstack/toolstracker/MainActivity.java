@@ -1,8 +1,12 @@
 package com.mstack.toolstracker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private List<History> histories;
     History history;
     PreferenceManager preferenceManager;
-
+    FlowQueryList<History> flowQueryList;
+    MyHistoryAdapter myHistoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         FlowManager.init(this);
-
+        flowQueryList = new FlowQueryList<History>(History.class);
         preferenceManager = new PreferenceManager(this);
         if (null != preferenceManager.getBaseApi()) {
             Api.URL = preferenceManager.getBaseApi();
@@ -85,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecycle() {
+        myHistoryAdapter = new MyHistoryAdapter(histories);
         mRecycleview.setHasFixedSize(true);
         mRecycleview.addItemDecoration(new DividerItemDecoration(MainActivity.this, DividerItemDecoration.VERTICAL_LIST));
         mRecycleview.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         mRecycleview.setItemAnimator(new DefaultItemAnimator());
-        MyHistoryAdapter myHistoryAdapter = new MyHistoryAdapter(histories);
         mRecycleview.setAdapter(myHistoryAdapter);
     }
 
@@ -112,12 +117,30 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_clear)
     public void clear() {
-        FlowQueryList<History> flowQueryList = new FlowQueryList<History>(History.class);
-        flowQueryList.removeAll(histories);
-        Log.d(TAG, "clear() returned: " + histories.size());
-        Toast.makeText(MainActivity.this, "Clear Data", Toast.LENGTH_SHORT).show();
-        txtNodata.setVisibility(View.VISIBLE);
-        mRecycleview.setVisibility(View.INVISIBLE);
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to clear history ?")
+                .setCancelable(false)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        flowQueryList.removeAll(histories);
+                        Log.d(TAG, "clear() returned: " + histories.size());
+                        txtNodata.setVisibility(View.VISIBLE);
+                        mRecycleview.setVisibility(View.INVISIBLE);
+                    }
+                })
+                ;
+        final AlertDialog alert = builder.create();
+        alert.show();
+
+
     }
 
     @Override
@@ -164,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, final int position) {
 
             holder.txtViewServiceCode.setText(histories.get(position).cServiceCode);
             holder.txtViewRegisterTime.setText(histories.get(position).cRegister_Time);
@@ -190,6 +213,13 @@ public class MainActivity extends AppCompatActivity {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_99);
             }
 
+            holder.txtViewDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    flowQueryList.remove(histories.remove(position));
+//                    Log.d(TAG, "onClick() returned: " + histories.get(position).cServiceCode);
+                }
+            });
         }
 
         @Override
@@ -199,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView txtViewServiceCode, txtViewRegisterTime, txtViewTatAll;
+            public TextView txtViewServiceCode, txtViewRegisterTime, txtViewTatAll, txtViewDelete;
             public ImageView imgViewCondition3;
 
             public ViewHolder(View itemLayoutView) {
@@ -209,9 +239,9 @@ public class MainActivity extends AppCompatActivity {
                 txtViewRegisterTime = (TextView) itemLayoutView.findViewById(R.id.txtRegisterTime);
                 txtViewTatAll = (TextView) itemLayoutView.findViewById(R.id.txtTAT);
                 imgViewCondition3 = (ImageView) itemLayoutView.findViewById(R.id.imgCondition3);
+                txtViewDelete = (TextView) itemLayoutView.findViewById(R.id.txtDelete);
 
             }
         }
     }
-
 }

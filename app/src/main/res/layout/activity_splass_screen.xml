@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mstack.toolstracker.SplashScreen">
+    tools:context="com.mstack.toolstracker.SplashScreen"
+    android:background="#0197fd">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -10,5 +11,5 @@
         android:id="@+id/imageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/splashscreen_bg" />
 </RelativeLayout>

@@ -13,6 +13,8 @@
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:textStyle="bold"
         android:id="@+id/txt" />
 
     <RelativeLayout
@@ -38,10 +40,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ed_url_api"
-            android:text="http://api.echeck-tools.com"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="http://api.echeck-tools.com/" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_save"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/btn_save" />
 
         <TextView
             android:layout_width="wrap_content"

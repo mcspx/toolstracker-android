@@ -27,6 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Tools Tracker"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:textStyle="bold"
             android:gravity="center" />
     </LinearLayout>
 
@@ -71,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_cancel"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/btn_cancel" />
 
         <TextView
             android:layout_width="match_parent"

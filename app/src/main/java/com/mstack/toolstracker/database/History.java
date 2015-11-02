@@ -13,7 +13,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 public class History extends BaseModel {
 
     @Column
-    @PrimaryKey
+    @PrimaryKey(autoincrement = true)
     public int order;
 
     @Column

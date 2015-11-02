@@ -36,12 +36,10 @@ public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
     @InjectView(R.id.recycleView)
     RecyclerView recycleView;
-
     String resultData;
     TrackingModel trackingModel;
     ProgressDialog progressDialog;
     History history;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +104,8 @@ public class DetailActivity extends AppCompatActivity {
                         }
 
                     }
-                    history.insert();
+                    history.save();
+
                 }
             }
 
