@@ -76,41 +76,11 @@ public class SettingActivity extends AppCompatActivity {
             Iapi_CheckURL = retrofit.create(CheckURL.class);
 
             return Iapi_CheckURL;
-        } catch (Exception e) {
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-            builder.setMessage("Please check your URL")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+        }finally {
 
-                        }
-                    });
-            final AlertDialog alert = builder.create();
-            alert.show();
-
-            preferenceManager.SetBaseApi("http://api.echeck-tools.com");
-            Api.URL = urlApi;
-
-        } finally {
-
-            Log.d(TAG, "finally api_CheckURL() returned: " + Iapi_CheckURL);
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-            builder.setMessage("Please check your URL")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                        }
-                    });
-            final AlertDialog alert = builder.create();
-            alert.show();
-
-            preferenceManager.SetBaseApi("http://api.echeck-tools.com");
-            Api.URL = urlApi;
         }
-        return null;
+        
     }
 
     public interface CheckURL {
