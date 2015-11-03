@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         txtNodata.setVisibility(View.INVISIBLE);
         mRecycleview.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -83,7 +82,11 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
         histories = new Select().from(History.class).queryList();
         testList = new Select().from(Test.class).queryList();
-        Log.d(TAG, "initData() out testList size: " + testList.size());
+        Log.d(TAG, "initData() out testList size = new : " + testList.size());
+        for (int i = 0; i < testList.size(); i++) {
+            Log.d(TAG, "initData() returned ok shit : " + testList.get(i).value.toString());
+        }
+
 //        FlowQueryList<History> flowQueryList = new FlowQueryList<History>(History.class);
         if (histories.size() != 0) {
             Log.d(TAG, "initData() returned: " + histories.get(0).cServiceCode);
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         if (testList.size() != 0){
             for (int i = 0; i < testList.size(); i++) {
                 testList.get(i).value.toString();
-                Log.d(TAG, "initData() testList value: " + testList.get(i).value.toString());
+                Log.d(TAG, "initData() testList value: " + testList.get(0));
                 Log.d(TAG, "initData() testList size: " + testList.size());
             }
         }
@@ -149,8 +152,7 @@ public class MainActivity extends AppCompatActivity {
                         txtNodata.setVisibility(View.VISIBLE);
                         mRecycleview.setVisibility(View.INVISIBLE);
                     }
-                })
-                ;
+                });
         final AlertDialog alert = builder.create();
         alert.show();
 
@@ -226,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (histories.get(position).cCondition3.equals("99")) {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_99);
             }
+
+
 
             holder.txtViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override

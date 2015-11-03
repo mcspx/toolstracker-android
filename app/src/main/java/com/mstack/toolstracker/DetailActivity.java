@@ -18,6 +18,7 @@ import com.mstack.toolstracker.database.History;
 import com.mstack.toolstracker.database.History$Table;
 import com.mstack.toolstracker.database.Test;
 import com.mstack.toolstracker.model.TrackingModel;
+import com.mstack.toolstracker.util.JSONUtils;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -42,6 +43,7 @@ public class DetailActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     History history;
     Test test;
+    JSONUtils jsonUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         progressDialog.setTitle("Tools Tracker");
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-
+        jsonUtils = new JSONUtils();
         Bundle bundle = getIntent().getExtras();
         resultData = bundle.getString("resultData");
         Log.d(TAG, "onCreate() returned: " + resultData);
@@ -75,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Response<TrackingModel> response, Retrofit retrofit) {
                 trackingModel = response.body();
                 if (trackingModel.getResultCode() == 200) {
+
                     recycleView.setHasFixedSize(true);
                     recycleView.addItemDecoration(new DividerItemDecoration(DetailActivity.this, DividerItemDecoration.VERTICAL_LIST));
                     recycleView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));

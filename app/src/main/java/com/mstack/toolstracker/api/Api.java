@@ -1,5 +1,7 @@
 package com.mstack.toolstracker.api;
 
+import android.widget.Toast;
+
 import com.mstack.toolstracker.model.TrackingModel;
 
 import retrofit.Callback;
@@ -26,8 +28,7 @@ public class Api {
         this.URL = api;
     }
 
-    private static LoadQRCode Iapi_loadQRCode ;
-
+    private static LoadQRCode Iapi_loadQRCode;
 
     public static LoadQRCode api_loadQRCode() {
 
@@ -45,5 +46,6 @@ public class Api {
         @POST("/tracking")
         retrofit.Call<TrackingModel> postQRCode(@Field("ssid") String ssid);
     }
+
 
 }
