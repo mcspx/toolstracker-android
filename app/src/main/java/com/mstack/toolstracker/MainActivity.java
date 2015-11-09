@@ -135,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_clear)
     public void clear() {
 
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Do you want to clear history ?")
                 .setCancelable(false)
@@ -155,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
-
 
     }
 
