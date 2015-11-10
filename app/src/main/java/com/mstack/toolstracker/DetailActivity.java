@@ -87,8 +87,6 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse() returned body: " + json);
 //                    Log.d(TAG, "onResponse() returned body: " + new Gson().fromJson(trackingModel.toString(),null));
 
-                    JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()+"/toolstracker"+"/test.json");
-
                     recycleView.setHasFixedSize(true);
                     recycleView.addItemDecoration(new DividerItemDecoration(DetailActivity.this, DividerItemDecoration.VERTICAL_LIST));
                     recycleView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
@@ -102,6 +100,10 @@ public class DetailActivity extends AppCompatActivity {
                         if (trackingModel.getResultData().get(i).getLabel().equals("Service Code")) {
                             history.lServiceCode = trackingModel.getResultData().get(i).getLabel();
                             history.cServiceCode = trackingModel.getResultData().get(i).getValue();
+                            JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()
+                                    +"/toolstracker/"
+                                    + trackingModel.getResultData().get(i).getValue()
+                                    +".json");
                         }
 
                         if (trackingModel.getResultData().get(i).getLabel().equals("Register Time")) {
