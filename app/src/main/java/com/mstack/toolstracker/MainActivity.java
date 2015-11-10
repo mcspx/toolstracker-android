@@ -17,9 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.mstack.toolstracker.api.Api;
 import com.mstack.toolstracker.database.History;
 import com.mstack.toolstracker.database.Test;
@@ -182,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
-    private class MyHistoryAdapter extends RecyclerView.Adapter<MyHistoryAdapter.ViewHolder> {
+    private class MyHistoryAdapter extends RecyclerView.Adapter<MyHistoryAdapter.ViewHolder>{
 
         private List<History> histories;
 
@@ -192,8 +194,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemLayoutView = LayoutInflater.from(parent.getContext())
+            final View itemLayoutView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_history, parent, false);
+
+            itemLayoutView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int itemPosition = mRecycleview.getChildAdapterPosition(v);
+
+                }
+            });
 
             final ViewHolder viewHolder = new ViewHolder(itemLayoutView);
 
@@ -227,19 +237,21 @@ public class MainActivity extends AppCompatActivity {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_99);
             }
 
-            holder.imgViewCondition3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
-                    startActivity(intent);
-                }
-            });
-
             holder.txtViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     flowQueryList.remove(histories.remove(position));
                     myHistoryAdapter.notifyDataSetChanged();
+                }
+            });
+
+            holder.li_root.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
+                    intent.putExtra("position",histories.get(position).cServiceCode);
+                    startActivity(intent);
+                    Log.d(TAG, "onClick() returned: " + histories.get(position).cServiceCode);
                 }
             });
         }
@@ -249,14 +261,17 @@ public class MainActivity extends AppCompatActivity {
             return histories.size();
         }
 
+
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public TextView txtViewServiceCode, txtViewRegisterTime, txtViewTatAll, txtViewDelete;
             public ImageView imgViewCondition3;
+            public SwipeLayout li_root;
 
             public ViewHolder(View itemLayoutView) {
                 super(itemLayoutView);
 
+                li_root = (SwipeLayout) itemLayoutView.findViewById(R.id.swipe);
                 txtViewServiceCode = (TextView) itemLayoutView.findViewById(R.id.txtServiceCode);
                 txtViewRegisterTime = (TextView) itemLayoutView.findViewById(R.id.txtRegisterTime);
                 txtViewTatAll = (TextView) itemLayoutView.findViewById(R.id.txtTAT);

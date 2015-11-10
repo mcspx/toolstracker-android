@@ -3,6 +3,8 @@ package com.mstack.toolstracker;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mstack.toolstracker.R;
 import com.mstack.toolstracker.model.TrackingModel;
 import com.mstack.toolstracker.util.JSONUtils;
@@ -18,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class DetailFromDB extends AppCompatActivity {
@@ -26,16 +30,27 @@ public class DetailFromDB extends AppCompatActivity {
     @InjectView(R.id.recycleView)
     RecyclerView recycleView;
     JSONUtils jsonUtils;
-    JSONArray trackingModel;
-    String lable;
+    String trackingModel;
+    String position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_from_db);
+        setContentView(R.layout.activity_detail);
+        ButterKnife.inject(this);
+        Bundle bundle = getIntent().getExtras();
+        position = bundle.getString("position");
         jsonUtils = new JSONUtils();
-        trackingModel = JSONUtils.readJSONArraySD(Environment.getExternalStorageDirectory() + "/toolstracker" + "/test.json");
 
+        trackingModel = JSONUtils.stringJSONArraySD(Environment.getExternalStorageDirectory() + "/toolstracker/" + position +".json");
+
+
+        recycleView.setHasFixedSize(true);
+        recycleView.addItemDecoration(new DividerItemDecoration(DetailFromDB.this, DividerItemDecoration.VERTICAL_LIST));
+        recycleView.setLayoutManager(new LinearLayoutManager(DetailFromDB.this));
+        recycleView.setItemAnimator(new DefaultItemAnimator());
+        DetailFromDBAdapter mAdapter = new DetailFromDBAdapter(new Gson().fromJson(trackingModel,TrackingModel.class));
+        recycleView.setAdapter(mAdapter);
     }
 
     private class DetailFromDBAdapter extends RecyclerView.Adapter<DetailFromDBAdapter.ViewHolder> {
