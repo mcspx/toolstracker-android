@@ -1,8 +1,10 @@
 package com.mstack.toolstracker;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +12,33 @@ import android.widget.TextView;
 
 import com.mstack.toolstracker.R;
 import com.mstack.toolstracker.model.TrackingModel;
+import com.mstack.toolstracker.util.JSONUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.InjectView;
 
 public class DetailFromDB extends AppCompatActivity {
 
+    private static final String TAG = "DetailFromDB";
     @InjectView(R.id.recycleView)
     RecyclerView recycleView;
+    JSONUtils jsonUtils;
+    JSONObject trackingModel;
+    String lable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_from_db);
+        jsonUtils = new JSONUtils();
+        trackingModel = JSONUtils.readJSONObjectSD(Environment.getExternalStorageDirectory()+"/toolstracker"+"/test.json");
+        try {
+            Log.d(TAG, "onCreate() returned: " + trackingModel.getJSONArray(lable));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private class DetailFromDBAdapter extends RecyclerView.Adapter<DetailFromDBAdapter.ViewHolder> {

@@ -227,7 +227,13 @@ public class MainActivity extends AppCompatActivity {
                 holder.imgViewCondition3.setImageResource(R.drawable.ic_99);
             }
 
-
+            holder.imgViewCondition3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
+                    startActivity(intent);
+                }
+            });
 
             holder.txtViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -2,6 +2,7 @@ package com.mstack.toolstracker;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mstack.toolstracker.api.Api;
 import com.mstack.toolstracker.database.History;
 import com.mstack.toolstracker.database.History$Table;
@@ -77,6 +79,15 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Response<TrackingModel> response, Retrofit retrofit) {
                 trackingModel = response.body();
                 if (trackingModel.getResultCode() == 200) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(trackingModel);
+                    Log.d(TAG, "onResponse() returned raw: " + response.raw().toString());
+                    Log.d(TAG, "onResponse() returned body: " + response.raw().body().toString());
+                    Log.d(TAG, "onResponse() returned body: " + response.raw());
+                    Log.d(TAG, "onResponse() returned body: " + json);
+//                    Log.d(TAG, "onResponse() returned body: " + new Gson().fromJson(trackingModel.toString(),null));
+
+                    JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()+"/toolstracker"+"/test.json");
 
                     recycleView.setHasFixedSize(true);
                     recycleView.addItemDecoration(new DividerItemDecoration(DetailActivity.this, DividerItemDecoration.VERTICAL_LIST));
@@ -119,7 +130,7 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d(TAG, "onFailure() returned: ");
+                Log.d(TAG, "onFailure() returned: "+t.getMessage());
             }
         });
     }

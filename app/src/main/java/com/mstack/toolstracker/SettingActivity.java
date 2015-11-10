@@ -41,8 +41,8 @@ public class SettingActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         preferenceManager = new PreferenceManager(this);
 
-        edUrlApi.setText(preferenceManager.getBaseApi());
-//        edUrlApi.setText("http://api.echeck-tools.com");
+//        edUrlApi.setText(preferenceManager.getBaseApi());
+        edUrlApi.setText("http://api.echeck-tools.com");
 
     }
 
