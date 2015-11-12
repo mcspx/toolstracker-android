@@ -1,8 +1,10 @@
 package com.mstack.toolstracker;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -128,7 +130,18 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.d(TAG, "onFailure() returned: "+t.getMessage());
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setMessage("Not found task from this QR Code")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.show();
+
             }
         });
     }
@@ -160,12 +173,12 @@ public class DetailActivity extends AppCompatActivity {
             if (trackingModel.getResultData().get(position).getState().equals("T")) {
                 holder.txtViewLabel.setText(trackingModel.getResultData().get(position).getLabel());
                 holder.txtViewValue.setText(trackingModel.getResultData().get(position).getValue());
-
-                JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()
-                        + "/toolstracker/"
-                        + trackingModel.getResultData().get(0).getValue()
-                        + ".json");
             }
+
+            JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()
+                    + "/toolstracker/"
+                    + trackingModel.getResultData().get(0).getValue()
+                    + ".json");
 
 
         }
