@@ -44,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
     RecyclerView recycleView;
     String resultData;
     TrackingModel trackingModel;
+    TrackingModel trackingFilter;
     ProgressDialog progressDialog;
     History history;
     Test test;
@@ -92,7 +93,8 @@ public class DetailActivity extends AppCompatActivity {
                     recycleView.addItemDecoration(new DividerItemDecoration(DetailActivity.this, DividerItemDecoration.VERTICAL_LIST));
                     recycleView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
                     recycleView.setItemAnimator(new DefaultItemAnimator());
-                    MyAdapter mAdapter = new MyAdapter(trackingModel);
+                    setTrackingFilter();
+                    MyAdapter mAdapter = new MyAdapter(trackingFilter);
                     recycleView.setAdapter(mAdapter);
                     progressDialog.dismiss();
 
@@ -136,7 +138,7 @@ public class DetailActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                            finish();
+                                finish();
                             }
                         });
                 final AlertDialog alert = builder.create();
@@ -144,6 +146,15 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void setTrackingFilter(){
+        trackingFilter = new TrackingModel();
+        for (int i = 0; i < trackingModel.getResultData().size(); i++) {
+            if (trackingModel.getResultData().get(i).getState().equals("T")){
+                trackingFilter.getResultData().add(trackingModel.getResultData().get(i));
+            }
+        }
     }
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {

@@ -1,5 +1,6 @@
 package com.mstack.toolstracker.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,12 +16,19 @@ public class TrackingModel {
 
     private int resultCode;
     private String resultText;
+
+    public TrackingModel() {
+        resultData = new ArrayList<ResultDataEntity>();
+    }
+
     /**
      * order : 1
      * state : T
      * label : Service Code
      * value : TH2015-10-00010
      */
+
+
 
     private List<ResultDataEntity> resultData;
 
