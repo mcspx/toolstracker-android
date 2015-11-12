@@ -75,6 +75,8 @@ public class SettingActivity extends AppCompatActivity {
                     .build();
             Iapi_CheckURL = retrofit.create(CheckURL.class);
 
+            Log.d(TAG, "api_CheckURL() returned TRY: ");
+
             return Iapi_CheckURL;
 
         } catch (Exception e) {
@@ -90,19 +92,13 @@ public class SettingActivity extends AppCompatActivity {
             final AlertDialog alert = builder.create();
             alert.show();
 
-            preferenceManager.SetBaseApi("http://api.echeck-tools.com");
-            Api.URL = urlApi;
-
-        } finally {
-
-            Log.d(TAG, "finally api_CheckURL() returned: " + Iapi_CheckURL);
+            Log.d(TAG, "api_CheckURL() returned CATCH: ");
 
             preferenceManager.SetBaseApi("http://api.echeck-tools.com");
             Api.URL = urlApi;
+
         }
 
-        preferenceManager.SetBaseApi("http://api.echeck-tools.com");
-        Api.URL = urlApi;
 
         return null;
     }
@@ -135,8 +131,7 @@ public class SettingActivity extends AppCompatActivity {
                         alert.show();
 
                     } else {
-                        preferenceManager.SetBaseApi("http://api.echeck-tools.com");
-                        Api.URL = urlApi;
+
 
                         final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
                         builder.setMessage("Please check your URL")
@@ -148,6 +143,9 @@ public class SettingActivity extends AppCompatActivity {
                                 });
                         final AlertDialog alert = builder.create();
                         alert.show();
+
+                        preferenceManager.SetBaseApi("http://api.echeck-tools.com");
+                        Api.URL = urlApi;
                     }
 
                 } else {
@@ -179,6 +177,19 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setMessage("Please check your URL")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.show();
+
+                Log.d(TAG, "onFailure() returned: " + t.getMessage());
 
             }
         });
