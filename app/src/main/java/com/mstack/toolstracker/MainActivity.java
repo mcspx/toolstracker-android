@@ -245,7 +245,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            holder.li_root.setOnClickListener(new View.OnClickListener() {
+            holder.txtViewServiceCode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
+                    intent.putExtra("position",histories.get(position).cServiceCode);
+                    startActivity(intent);
+                    Log.d(TAG, "onClick() returned: " + histories.get(position).cServiceCode);
+                }
+            });
+
+            holder.txtViewRegisterTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
+                    intent.putExtra("position",histories.get(position).cServiceCode);
+                    startActivity(intent);
+                    Log.d(TAG, "onClick() returned: " + histories.get(position).cServiceCode);
+                }
+            });
+
+            holder.txtViewTatAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
+                    intent.putExtra("position",histories.get(position).cServiceCode);
+                    startActivity(intent);
+                    Log.d(TAG, "onClick() returned: " + histories.get(position).cServiceCode);
+                }
+            });
+
+            holder.imgViewCondition3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this,DetailFromDB.class);
@@ -266,17 +296,16 @@ public class MainActivity extends AppCompatActivity {
 
             public TextView txtViewServiceCode, txtViewRegisterTime, txtViewTatAll, txtViewDelete;
             public ImageView imgViewCondition3;
-            public SwipeLayout li_root;
 
             public ViewHolder(View itemLayoutView) {
                 super(itemLayoutView);
 
-                li_root = (SwipeLayout) itemLayoutView.findViewById(R.id.swipe);
                 txtViewServiceCode = (TextView) itemLayoutView.findViewById(R.id.txtServiceCode);
                 txtViewRegisterTime = (TextView) itemLayoutView.findViewById(R.id.txtRegisterTime);
                 txtViewTatAll = (TextView) itemLayoutView.findViewById(R.id.txtTAT);
                 imgViewCondition3 = (ImageView) itemLayoutView.findViewById(R.id.imgCondition3);
                 txtViewDelete = (TextView) itemLayoutView.findViewById(R.id.txtDelete);
+
 
             }
         }

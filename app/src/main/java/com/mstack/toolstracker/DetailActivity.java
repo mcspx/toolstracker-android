@@ -53,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.inject(this);
         history = new History();
-        test = new Test();
+//        test = new Test();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Tools Tracker");
         progressDialog.setMessage("Loading...");
@@ -79,12 +79,11 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Response<TrackingModel> response, Retrofit retrofit) {
                 trackingModel = response.body();
                 if (trackingModel.getResultCode() == 200) {
-                    Gson gson = new Gson();
-                    String json = gson.toJson(trackingModel);
+
                     Log.d(TAG, "onResponse() returned raw: " + response.raw().toString());
                     Log.d(TAG, "onResponse() returned body: " + response.raw().body().toString());
                     Log.d(TAG, "onResponse() returned body: " + response.raw());
-                    Log.d(TAG, "onResponse() returned body: " + json);
+//                    Log.d(TAG, "onResponse() returned body: " + json);
 //                    Log.d(TAG, "onResponse() returned body: " + new Gson().fromJson(trackingModel.toString(),null));
 
                     recycleView.setHasFixedSize(true);
@@ -100,10 +99,7 @@ public class DetailActivity extends AppCompatActivity {
                         if (trackingModel.getResultData().get(i).getLabel().equals("Service Code")) {
                             history.lServiceCode = trackingModel.getResultData().get(i).getLabel();
                             history.cServiceCode = trackingModel.getResultData().get(i).getValue();
-                            JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()
-                                    +"/toolstracker/"
-                                    + trackingModel.getResultData().get(i).getValue()
-                                    +".json");
+
                         }
 
                         if (trackingModel.getResultData().get(i).getLabel().equals("Register Time")) {
@@ -121,9 +117,9 @@ public class DetailActivity extends AppCompatActivity {
                             history.cCondition3 = trackingModel.getResultData().get(i).getValue();
                         }
 
-                        test.lable = trackingModel.getResultData().get(i).getLabel();
-                        test.value = trackingModel.getResultData().get(i).getValue();
-                        test.insert();
+//                        test.lable = trackingModel.getResultData().get(i).getLabel();
+//                        test.value = trackingModel.getResultData().get(i).getValue();
+//                        test.insert();
                     }
                     history.save();
 
@@ -136,7 +132,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
@@ -159,10 +154,20 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
 
+            Gson gson = new Gson();
+            String json = gson.toJson(trackingModel);
+
             if (trackingModel.getResultData().get(position).getState().equals("T")) {
                 holder.txtViewLabel.setText(trackingModel.getResultData().get(position).getLabel());
                 holder.txtViewValue.setText(trackingModel.getResultData().get(position).getValue());
+
+                JSONUtils.writeJson(json, Environment.getExternalStorageDirectory()
+                        + "/toolstracker/"
+                        + trackingModel.getResultData().get(0).getValue()
+                        + ".json");
             }
+
+
         }
 
         @Override

@@ -5,7 +5,6 @@
     android:id="@+id/root">
 
     <com.daimajia.swipe.SwipeLayout xmlns:swipe="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         swipe:leftEdgeSwipeOffset="0dp"
@@ -67,7 +66,7 @@
                         android:layout_toLeftOf="@+id/r"
                         android:layout_alignBottom="@+id/r"
                         android:layout_alignTop="@+id/r"
-                        android:weightSum="2">
+                        android:gravity="center">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -75,8 +74,8 @@
                             android:text="New Text"
                             android:id="@+id/txtServiceCode"
                             android:gravity="center|left"
-                            android:layout_weight="1"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:padding="6dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -84,8 +83,8 @@
                             android:text="New Text"
                             android:id="@+id/txtRegisterTime"
                             android:gravity="center|left"
-                            android:layout_weight="1"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:padding="6dp" />
                     </LinearLayout>
 
                     <LinearLayout
