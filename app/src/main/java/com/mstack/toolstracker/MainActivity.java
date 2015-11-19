@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 resultData = String.valueOf(data.getStringExtra(ZBarConstants.SCAN_RESULT));
-                Toast.makeText(this, "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Scan Result = " + data.getStringExtra(ZBarConstants.SCAN_RESULT), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, DetailActivity.class);
                 intent.putExtra("resultData", resultData);
                 Log.d(TAG, "onActivityResult() returned: " + resultData);

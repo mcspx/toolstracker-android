@@ -53,7 +53,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/imgCondition3"
-                            android:src="@drawable/ic_00" />
+                            android:src="@drawable/ic_00"
+                            android:adjustViewBounds="false" />
                     </LinearLayout>
 
                     <LinearLayout
