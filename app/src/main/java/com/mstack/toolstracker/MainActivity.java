@@ -210,12 +210,22 @@ public class MainActivity extends AppCompatActivity {
             return viewHolder;
         }
 
+        public String getSubText(String day) {
+            int idx = day.lastIndexOf("D");
+            return day.substring(0,idx);
+        }
+
+
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
 
+            String day = histories.get(position).cTAT_All;
+            String subDay = getSubText(day);
+            Log.d(TAG, "onBindViewHolder: sub = "+subDay);
+
             holder.txtViewServiceCode.setText(histories.get(position).cServiceCode);
             holder.txtViewRegisterTime.setText(histories.get(position).cRegister_Time);
-            holder.txtViewTatAll.setText(histories.get(position).cTAT_All);
+            holder.txtViewTatAll.setText(subDay);
 //
             Log.d(TAG, "cServiceCode returned: " + histories.get(position).cServiceCode);
             Log.d(TAG, "cRegister_Time returned: " + histories.get(position).cRegister_Time);

@@ -38,36 +38,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
 
                     <LinearLayout
                         android:orientation="horizontal"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:id="@+id/l">
+                        android:id="@+id/l"
+                        android:layout_weight="2">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/imgCondition3"
                             android:src="@drawable/ic_00"
-                            android:adjustViewBounds="false" />
+                            android:adjustViewBounds="true" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:id="@+id/c"
                         android:layout_alignParentTop="false"
                         android:layout_toRightOf="@+id/l"
                         android:layout_toLeftOf="@+id/r"
                         android:layout_alignBottom="@+id/r"
                         android:layout_alignTop="@+id/r"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:layout_weight="6">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -90,14 +94,15 @@
 
                     <LinearLayout
                         android:orientation="vertical"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:id="@+id/r"
                         android:layout_alignBottom="@+id/l"
                         android:layout_alignTop="@+id/l"
                         android:gravity="center"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:layout_weight="2">
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
@@ -108,23 +113,30 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/r192"
-                                />
+                                android:adjustViewBounds="true" />
 
                             <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="5"
                             android:id="@+id/txtTAT"
-                            android:padding="6dp"
-                                android:layout_centerVertical="true"
-                                android:layout_centerHorizontal="true" />
+                                android:gravity="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Days"
+                                android:id="@+id/day"
+                                android:layout_below="@+id/txtTAT"
+                                android:gravity="center"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
                         </RelativeLayout>
                     </LinearLayout>
 
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
